@@ -40,16 +40,15 @@ class PreUploadFilter extends ZuulFilter {
 
     @Override
     boolean shouldFilter() {
-        return true;
+        HttpServletRequest request = RequestContext.currentContext.request as HttpServletRequest
+        return request.getHeader("Content-type").contains("multipart/form-data");
     }
 
     @Override
     Object run() {
         RequestContext ctx = RequestContext.getCurrentContext()
-        // sets origin
-//        ctx.setRouteHost(new URL("http://httpbin.org"));
-
         HttpServletRequest request = RequestContext.currentContext.request as HttpServletRequest
+
         //Debug.addRequestDebug("REQUEST:: " + req.getScheme() + " " + req.getRemoteAddr() + ":" + req.getRemotePort())
         //Debug.addRequestDebug("REQUEST:: > " + req.getMethod() + " " + req.getRequestURI() + " " + req.getProtocol())
 
